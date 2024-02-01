@@ -2,6 +2,7 @@ package SpengergasseSimulator;
 
 public class Entity {
     protected int x, y, speed;
+    protected int spriteNum = 1, spriteCounter = 0;
 
     public int getX() {
         return x;

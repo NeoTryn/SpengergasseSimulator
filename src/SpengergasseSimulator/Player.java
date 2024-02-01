@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends Entity{
     private GamePanel gp;
@@ -22,18 +23,18 @@ public class Player extends Entity{
     public void getPlayerImage() {
         try {
 
-            down1 = ImageIO.read(getClass().getResourceAsStream("C:\\Users\\felix\\IdeaProjects\\SpengergasseSimulator2\\src\\img\\boy_down_1.png"));
-            /*down2 = ImageIO.read(getClass().getResourceAsStream("./src/img/boy_down_2.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("./src/img/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("./src/img/boy_up_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("./src/img/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("./src/img/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("./src/img/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("./src/img/boy_right_2.png"));*/
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_down_1.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_down_2.png")));
+            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_up_1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_up_2.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_left_1.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_left_2.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_right_1.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/boy_right_2.png")));
 
         }catch(IOException e) {
             System.out.println("ERROR");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -45,6 +46,11 @@ public class Player extends Entity{
     }
 
     public void update() {
+
+        if (!keyH.w && !keyH.a && !keyH.d && !keyH.s) {
+            spriteCounter = 0;
+        }
+
         if (keyH.w) {
             direction = "up";
             y -= speed;
@@ -61,6 +67,17 @@ public class Player extends Entity{
             direction = "right";
             x += speed;
         }
+
+        spriteCounter++;
+        if (spriteCounter > 14) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            }
+            else if(spriteNum == 2) {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -71,16 +88,36 @@ public class Player extends Entity{
 
         switch (direction) {
             case "up":
-                image = up1;
+                if (spriteNum == 1) {
+                    image = up1;
+                }
+                else if (spriteNum == 2) {
+                    image = up2;
+                }
                 break;
             case "left":
-                image = left1;
+                if (spriteNum == 1) {
+                    image = left1;
+                }
+                else if (spriteNum == 2) {
+                    image = left2;
+                }
                 break;
             case "right":
-                image = right1;
+                if (spriteNum == 1) {
+                    image = right1;
+                }
+                else if (spriteNum == 2) {
+                    image = right2;
+                }
                 break;
             case "down":
-                image = down1;
+                if (spriteNum == 1) {
+                    image = down1;
+                }
+                else if (spriteNum == 2) {
+                    image = down2;
+                }
                 break;
             default:
                 System.out.println("Invalid direction");
