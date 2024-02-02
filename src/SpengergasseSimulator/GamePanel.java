@@ -70,9 +70,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         int x = 0, y = 0;
 
-        for (int i = 0; i < 10; i++) {
-            tileMng.draw(g2, i, x, y);
-            x += 48;
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0;j < 16; j++) {
+                tileMng.draw(g2, 0, x, y);
+                x += 48;
+            }
+            x = 0;
             y += 48;
         }
 

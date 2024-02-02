@@ -21,11 +21,15 @@ public class TileManager {
         try {
 
             if (to < this.tileCount && from < this.tileCount) {
-                for (int i = from; i <= to; i++) {
+                // Unnecessarily loading in the earth tile 10 times. Can be used with some string manipulation and the numbered tiles, though
+               /*for (int i = from; i <= to; i++) {
                     Tile temp = new Tile();
                     temp.img = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png")));
                     tiles[i] = temp;
-                }
+                }*/
+
+                tiles[0] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/grass01.png"))), false);
+
             }
             else {
                 System.err.println("From or To bigger than count of tiles, NO LOADING POSSIBLE");
