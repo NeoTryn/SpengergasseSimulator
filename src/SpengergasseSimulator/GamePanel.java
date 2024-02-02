@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler handler = new KeyHandler();
     Thread fred;
     Player player = new Player(this, handler);
+    TileManager tileMng = new TileManager(10, this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -25,6 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(handler);
         this.setFocusable(true);
+
+        tileMng.loadTiles(0, 9);
     }
 
     public void startGameThread() {
@@ -63,6 +66,15 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
+
+
+        int x = 0, y = 0;
+
+        for (int i = 0; i < 10; i++) {
+            tileMng.draw(g2, i, x, y);
+            x += 48;
+            y += 48;
+        }
 
         player.draw(g2);
 
