@@ -1,23 +1,23 @@
 package SpengergasseSimulator;
 
 public class Entity {
-    protected int x, y, speed;
+    protected int worldX, worldY, speed;
     protected int spriteNum = 1, spriteCounter = 0;
 
     public int getX() {
-        return x;
+        return worldX;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setX(int worldX) {
+        this.worldX = worldX;
     }
 
     public int getY() {
-        return y;
+        return worldY;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setY(int worldY) {
+        this.worldY = worldY;
     }
 
     public int getSpeed() {

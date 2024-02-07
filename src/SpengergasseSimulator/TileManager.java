@@ -18,7 +18,7 @@ public class TileManager {
         this.gp = gp;
         this.tiles = new Tile[tileCount];
         this.tileCount = tileCount;
-        this.mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
+        this.mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
     }
 
     public void loadTiles(int from, int to) {
@@ -33,10 +33,11 @@ public class TileManager {
                 }*/
 
                 tiles[0] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/grass00.png"))), false);
-                tiles[1] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/grass01.png"))), false);
-                tiles[2] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/wall.png"))), false);
-                tiles[3] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/road00.png"))), false);
-                tiles[4] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/water00.png"))), false);
+                tiles[1] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/wall.png"))), false);
+                tiles[2] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/water00.png"))), false);
+                tiles[3] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png"))), false);
+                tiles[4] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/tree.png"))), false);
+                tiles[5] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png"))), false);
             }
             else {
                 System.err.println("From or To bigger than count of tiles, NO LOADING POSSIBLE");
@@ -56,17 +57,17 @@ public class TileManager {
 
             int col = 0, row = 0;
 
-            while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
+            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String line = br.readLine();
 
-                while (col < gp.maxScreenCol) {
+                while (col < gp.maxWorldCol) {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
 
                     mapTileNum[col][row] = num;
                     col++;
                 }
-                if (col == gp.maxScreenCol) {
+                if (col == gp.maxWorldCol) {
                     col = 0;
                     row++;
                 }
@@ -77,21 +78,22 @@ public class TileManager {
     }
 
     public void drawFromMap(Graphics2D g2) {
-        int col = 0, row = 0;
-        int x = 0, y = 0;
+        int worldCol = 0, worldRow = 0;
 
-        while(col < gp.maxScreenCol && row < gp.maxScreenRow) {
-            int tileNum = mapTileNum[col][row];
+        while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+            int tileNum = mapTileNum[worldCol][worldRow];
 
-            g2.drawImage(tiles[tileNum].img, x, y, gp.tileSize, gp.tileSize, null);
-            col++;
-            x += gp.tileSize;
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            if (col == gp.maxScreenCol) {
-                col = 0;
-                x = 0;
-                row++;
-                y += gp.tileSize;
+            g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            worldCol++;
+
+            if (worldCol == gp.maxWorldCol) {
+                worldCol = 0;
+                worldRow++;
             }
         }
     }

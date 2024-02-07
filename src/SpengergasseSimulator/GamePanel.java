@@ -13,7 +13,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int screenWidth = tileSize * maxScreenCol, screenHeight = tileSize * maxScreenRow;
 
+    // FPS
     public final int fps = 60;
+
+    //World settings
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
 
     KeyHandler handler = new KeyHandler();
     Thread fred;
@@ -28,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
         tileMng.loadTiles(0, 9);
-        tileMng.loadMap("maps/level01.txt");
+        tileMng.loadMap("maps/world01.txt");
     }
 
     public void startGameThread() {
@@ -67,9 +74,6 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-
-
-        int x = 0, y = 0;
 
         tileMng.drawFromMap(g2);
 
