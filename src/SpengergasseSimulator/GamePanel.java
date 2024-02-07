@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
         tileMng.loadTiles(0, 9);
-        tileMng.loadMap("level01.txt");
+        tileMng.loadMap("maps/level01.txt");
     }
 
     public void startGameThread() {
