@@ -11,7 +11,7 @@ public class Player extends Entity{
     private final KeyHandler keyH;
 
     private BufferedImage down1, down2, up1, up2, right1, right2, left1, left2;
-    private String direction;
+    public String direction;
 
     public final int screenX, screenY;
 
@@ -49,29 +49,50 @@ public class Player extends Entity{
         this.worldY = gp.tileSize * 21;
         this.speed = 4;
         this.direction = "down";
+
+        int hitBoxX = 8, hitBoxY = 16;
+
+        // creating the hitbox for the player
+        this.hitBox = new Rectangle(hitBoxX, hitBoxY, gp.tileSize - hitBoxX * 2, gp.tileSize - hitBoxY);
     }
 
     public void update() {
+        if (keyH.w || keyH.a || keyH.d || keyH.s) {
+
+            if (keyH.w) {
+                direction = "up";
+            }
+            if (keyH.s) {
+                direction = "down";
+            }
+            if (keyH.a) {
+                direction = "left";
+            }
+            if (keyH.d) {
+                direction = "right";
+            }
+
+            collisionOn = false;
+            gp.colHandler.checkTile(this);
+
+            if (!collisionOn) {
+                if (Objects.equals(direction, "up")) {
+                    worldY -= speed;
+                }
+                if (Objects.equals(direction, "down")) {
+                    worldY += speed;
+                }
+                if (Objects.equals(direction, "left")) {
+                    worldX -= speed;
+                }
+                if (Objects.equals(direction, "right")) {
+                    worldX += speed;
+                }
+            }
+        }
 
         if (!keyH.w && !keyH.a && !keyH.d && !keyH.s) {
             spriteCounter = 0;
-        }
-
-        if (keyH.w) {
-            direction = "up";
-            worldY -= speed;
-        }
-        if(keyH.s) {
-            direction = "down";
-            worldY += speed;
-        }
-        if(keyH.a) {
-            direction = "left";
-            worldX -= speed;
-        }
-        if(keyH.d) {
-            direction = "right";
-            worldX += speed;
         }
 
         spriteCounter++;

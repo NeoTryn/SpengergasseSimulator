@@ -1,8 +1,12 @@
 package SpengergasseSimulator;
 
+import java.awt.*;
+
 public class Entity {
     protected int worldX, worldY, speed;
     protected int spriteNum = 1, spriteCounter = 0;
+    protected Rectangle hitBox;
+    public boolean collisionOn;
 
     public int getX() {
         return worldX;
@@ -26,5 +30,9 @@ public class Entity {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public Rectangle getHitBox() {
+        return hitBox;
     }
 }

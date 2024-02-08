@@ -33,10 +33,18 @@ public class TileManager {
                 }*/
 
                 tiles[0] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/grass00.png"))), false);
+
                 tiles[1] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/wall.png"))), false);
+                tiles[1].collision = true;
+
                 tiles[2] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/water00.png"))), false);
+                tiles[2].collision = true;
+
                 tiles[3] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png"))), false);
+
                 tiles[4] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/tree.png"))), false);
+                tiles[4].collision = true;
+
                 tiles[5] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png"))), false);
             }
             else {
