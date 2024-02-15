@@ -43,7 +43,7 @@ public class TileManager {
                 tiles[3] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png"))), false);
 
                 tiles[4] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/tree.png"))), false);
-                tiles[4].collision = true;
+                //tiles[4].collision = true;
 
                 tiles[5] = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png"))), false);
             }
@@ -88,7 +88,7 @@ public class TileManager {
     public void drawFromMap(Graphics2D g2) {
         int worldCol = 0, worldRow = 0;
 
-        while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
@@ -96,11 +96,52 @@ public class TileManager {
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            if (worldX < gp.player.worldX + gp.player.screenX + gp.tileSize&&
+            //int rightScreenX = gp.worldWidth - gp.tileSize - (int) gp.screenWidth, rightScreenY = gp.worldHeight - gp.tileSize - (int) gp.screenHeight;
+
+            if (worldX < gp.player.worldX + gp.player.screenX + gp.tileSize &&
                     worldX > gp.player.worldX - gp.player.screenX - gp.tileSize &&
                     worldY < gp.player.worldY + gp.player.screenY + gp.tileSize &&
                     worldY > gp.player.worldY - gp.player.screenY - gp.tileSize) {
-                g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+                if (gp.player.worldX + gp.player.screenX >= gp.worldWidth - gp.tileSize) {
+                    gp.player.canMoveRight = true;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
+
+                if (gp.player.worldX - gp.player.screenX <= 0) {
+                    gp.player.canMoveLeft = true;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
+
+                if (gp.player.worldY + gp.player.screenX >= gp.worldHeight - gp.tileSize) {
+                    gp.player.canMoveUp = true;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
+
+                if (gp.player.worldY - gp.player.screenX <= 0) {
+                    gp.player.canMoveDown = true;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
+
+                if (!(gp.player.worldX + gp.player.screenX >= gp.worldWidth - gp.tileSize)) {
+                    gp.player.canMoveRight = false;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
+
+                if (!(gp.player.worldX - gp.player.screenX <= gp.tileSize)) {
+                    gp.player.canMoveLeft = false;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
+
+                if (!(gp.player.worldY + gp.player.screenX >= gp.worldHeight - gp.tileSize)) {
+                    gp.player.canMoveUp = false;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
+
+                if (!(gp.player.worldY - gp.player.screenX <= gp.tileSize)) {
+                    gp.player.canMoveDown = false;
+                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
             }
 
             worldCol++;
@@ -111,6 +152,7 @@ public class TileManager {
             }
         }
     }
+
     public void draw(Graphics2D g2, int which, int x, int y) {
         g2.drawImage(tiles[which].img, x, y, gp.tileSize, gp.tileSize, null);
     }

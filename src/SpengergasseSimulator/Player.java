@@ -13,14 +13,17 @@ public class Player extends Entity{
     private BufferedImage down1, down2, up1, up2, right1, right2, left1, left2;
     public String direction;
 
-    public final int screenX, screenY;
+    public int screenX;
+    public int screenY;
+
+    public boolean canMoveRight = false, canMoveLeft = false, canMoveUp = false, canMoveDown = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
 
-        this.screenX = gp.screenWidth/2 - gp.tileSize/2;
-        this.screenY = gp.screenHeight/2 - gp.tileSize/2;
+        this.screenX = (int)gp.screenWidth/2 - gp.tileSize/2;
+        this.screenY = (int)gp.screenHeight/2 - gp.tileSize/2;
 
         getPlayerImage();
         setStandardValues();
@@ -78,15 +81,27 @@ public class Player extends Entity{
             if (!collisionOn) {
                 if (Objects.equals(direction, "up")) {
                     worldY -= speed;
+                    if (canMoveUp) {
+                        screenY -= speed;
+                    }
                 }
                 if (Objects.equals(direction, "down")) {
                     worldY += speed;
+                    if (canMoveDown) {
+                        screenY += speed;
+                    }
                 }
                 if (Objects.equals(direction, "left")) {
                     worldX -= speed;
+                    if (canMoveLeft) {
+                        screenX -= speed;
+                    }
                 }
                 if (Objects.equals(direction, "right")) {
                     worldX += speed;
+                    if (canMoveRight) {
+                        screenX += speed;
+                    }
                 }
             }
         }

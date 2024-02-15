@@ -1,6 +1,7 @@
 package SpengergasseSimulator;
 
 import javax.swing.*;
+import javax.tools.Tool;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -11,7 +12,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = originalTileSize * scale;
     public final int maxScreenCol = 16, maxScreenRow = 12;
 
-    public final int screenWidth = tileSize * maxScreenCol, screenHeight = tileSize * maxScreenRow;
+    Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+    public final double screenWidth = size.getWidth(), screenHeight = size.getHeight();
 
     // FPS
     public final int fps = 60;
@@ -22,18 +24,22 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
-    KeyHandler handler = new KeyHandler();
+    public KeyHandler handler = new KeyHandler();
     Thread fred;
     Player player = new Player(this, handler);
     TileManager tileMng = new TileManager(10, this);
+
+    JFrame window;
     public CollisionHandler colHandler = new CollisionHandler(this);
 
-    public GamePanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+    public GamePanel(JFrame window) {
+        this.setPreferredSize(new Dimension((int)screenWidth, (int)screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(handler);
         this.setFocusable(true);
+
+        this.window = window;
 
         tileMng.loadTiles(0, 9);
         tileMng.loadMap("maps/world01.txt");
@@ -68,6 +74,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+        if (handler.esc) {
+            window.setVisible(false);
+            window.dispose();
+            handler.esc = false;
+
+            System.exit(0);
+        }
+
         player.update();
     }
 

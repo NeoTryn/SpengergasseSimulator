@@ -7,10 +7,12 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
+        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        window.setUndecorated(true);
 
         window.setTitle("SpengergasseSimulator");
 
-        GamePanel panel = new GamePanel();
+        GamePanel panel = new GamePanel(window);
         window.add(panel);
 
         window.pack();
@@ -19,5 +21,6 @@ public class Main {
         window.setVisible(true);
 
         panel.startGameThread();
+        
     }
 }
