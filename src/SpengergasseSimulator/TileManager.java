@@ -85,8 +85,17 @@ public class TileManager {
         }
     }
 
-    public void drawFromMap(Graphics2D g2) {
+    public void drawFromMap(Graphics2D g2, int sideNum, boolean fading) {
         int worldCol = 0, worldRow = 0;
+
+        int playerCol = gp.player.worldX / gp.tileSize;
+        int playerRow = gp.player.worldY / gp.tileSize;
+        int restRightCol = gp.maxWorldCol - playerCol;
+        int restDownRow = gp.maxWorldRow - playerRow;
+        int rightColsLeftToDraw = (gp.maxScreenCol / 2) - restRightCol;
+        int upRowsLeftToDraw = (gp.maxScreenRow / 2) - playerRow;
+        int leftColsLeftToDraw = (gp.maxScreenCol / 2) - playerCol;
+        int downRowsLeftToDraw = (gp.maxScreenRow / 2) - restDownRow;
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
@@ -103,45 +112,7 @@ public class TileManager {
                     worldY < gp.player.worldY + gp.player.screenY + gp.tileSize &&
                     worldY > gp.player.worldY - gp.player.screenY - gp.tileSize) {
 
-                if (gp.player.worldX + gp.player.screenX >= gp.worldWidth - gp.tileSize) {
-                    gp.player.canMoveRight = true;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
-
-                if (gp.player.worldX - gp.player.screenX <= 0) {
-                    gp.player.canMoveLeft = true;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
-
-                if (gp.player.worldY + gp.player.screenX >= gp.worldHeight - gp.tileSize) {
-                    gp.player.canMoveUp = true;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
-
-                if (gp.player.worldY - gp.player.screenX <= 0) {
-                    gp.player.canMoveDown = true;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
-
-                if (!(gp.player.worldX + gp.player.screenX >= gp.worldWidth - gp.tileSize)) {
-                    gp.player.canMoveRight = false;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
-
-                if (!(gp.player.worldX - gp.player.screenX <= gp.tileSize)) {
-                    gp.player.canMoveLeft = false;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
-
-                if (!(gp.player.worldY + gp.player.screenX >= gp.worldHeight - gp.tileSize)) {
-                    gp.player.canMoveUp = false;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
-
-                if (!(gp.player.worldY - gp.player.screenX <= gp.tileSize)) {
-                    gp.player.canMoveDown = false;
-                    g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                }
+                g2.drawImage(tiles[tileNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
 
             worldCol++;
@@ -149,6 +120,136 @@ public class TileManager {
             if (worldCol == gp.maxWorldCol) {
                 worldCol = 0;
                 worldRow++;
+            }
+        }
+
+        if (gp.player.worldX + gp.player.screenX >= gp.worldWidth - gp.tileSize) {
+            drawRightSide(g2, 4, false, rightColsLeftToDraw + 1);
+        }
+
+        if (gp.player.worldX - gp.player.screenX <= gp.tileSize) {
+            drawLeftSide(g2, 4, false, leftColsLeftToDraw + 1);
+        }
+
+        if (gp.player.worldY - gp.player.screenY <= gp.tileSize) {
+            drawUpSide(g2, 4, false, upRowsLeftToDraw + 2);
+        }
+
+        if (gp.player.worldY + gp.player.screenY >= gp.worldHeight - gp.tileSize) {
+            drawDownSide(g2, 4, false, downRowsLeftToDraw + 2);
+        }
+    }
+
+    private void drawRightSide(Graphics2D g2, int sideNum, boolean fading, int rightScreenCols) {
+
+        int col = gp.maxWorldCol, row = 0;
+
+        while (col < rightScreenCols + gp.maxWorldCol && row < gp.maxWorldRow) {
+
+            int worldX = col * gp.tileSize;
+            int worldY = row * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+            if (worldX < gp.player.worldX + gp.player.screenX + gp.tileSize &&
+                    worldX > gp.player.worldX - gp.player.screenX - gp.tileSize &&
+                    worldY < gp.player.worldY + gp.player.screenY + gp.tileSize &&
+                    worldY > gp.player.worldY - gp.player.screenY - gp.tileSize) {
+
+                g2.drawImage(tiles[sideNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
+
+            col++;
+
+            if (col == rightScreenCols + gp.maxWorldCol) {
+                col = gp.maxWorldCol;
+                row++;
+            }
+        }
+    }
+
+    private void drawLeftSide(Graphics2D g2, int sideNum, boolean fading, int leftScreenCols) {
+
+        int col = 0, row = 0;
+        leftScreenCols = -leftScreenCols;
+
+        while (col > leftScreenCols && row < gp.maxWorldRow) {
+
+            int worldX = col * gp.tileSize;
+            int worldY = row * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+            if (worldX < gp.player.worldX + gp.player.screenX + gp.tileSize &&
+                    worldX > gp.player.worldX - gp.player.screenX - gp.tileSize &&
+                    worldY < gp.player.worldY + gp.player.screenY + gp.tileSize &&
+                    worldY > gp.player.worldY - gp.player.screenY - gp.tileSize) {
+
+                g2.drawImage(tiles[sideNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
+
+            col--;
+
+            if (col == leftScreenCols) {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
+    private void drawUpSide(Graphics2D g2, int sideNum, boolean fading, int upScreenRows) {
+
+        int col = 0, row = 0;
+        upScreenRows = -upScreenRows;
+
+        while (col < gp.maxWorldCol && row > upScreenRows) {
+
+            int worldX = col * gp.tileSize;
+            int worldY = row * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+            if (worldX < gp.player.worldX + gp.player.screenX + gp.tileSize &&
+                    worldX > gp.player.worldX - gp.player.screenX - gp.tileSize &&
+                    worldY < gp.player.worldY + gp.player.screenY + gp.tileSize &&
+                    worldY > gp.player.worldY - gp.player.screenY - gp.tileSize) {
+
+                g2.drawImage(tiles[sideNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
+
+            col++;
+
+            if (col == gp.maxWorldCol) {
+                col = 0;
+                row--;
+            }
+        }
+    }
+
+    private void drawDownSide(Graphics2D g2, int sideNum, boolean fading, int downScreenCols) {
+
+        int col = 0, row = gp.maxWorldRow;
+
+        while (col < gp.maxWorldCol && row < gp.maxWorldRow + downScreenCols) {
+
+            int worldX = col * gp.tileSize;
+            int worldY = row * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+            if (worldX < gp.player.worldX + gp.player.screenX + gp.tileSize &&
+                    worldX > gp.player.worldX - gp.player.screenX - gp.tileSize &&
+                    worldY < gp.player.worldY + gp.player.screenY + gp.tileSize &&
+                    worldY > gp.player.worldY - gp.player.screenY - gp.tileSize) {
+
+                g2.drawImage(tiles[sideNum].img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
+
+            col++;
+
+            if (col == gp.maxWorldCol) {
+                col = 0;
+                row++;
             }
         }
     }

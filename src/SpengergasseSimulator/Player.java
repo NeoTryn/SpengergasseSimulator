@@ -16,8 +16,6 @@ public class Player extends Entity{
     public int screenX;
     public int screenY;
 
-    public boolean canMoveRight = false, canMoveLeft = false, canMoveUp = false, canMoveDown = false;
-
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
@@ -81,27 +79,15 @@ public class Player extends Entity{
             if (!collisionOn) {
                 if (Objects.equals(direction, "up")) {
                     worldY -= speed;
-                    if (canMoveUp) {
-                        screenY -= speed;
-                    }
                 }
                 if (Objects.equals(direction, "down")) {
                     worldY += speed;
-                    if (canMoveDown) {
-                        screenY += speed;
-                    }
                 }
                 if (Objects.equals(direction, "left")) {
                     worldX -= speed;
-                    if (canMoveLeft) {
-                        screenX -= speed;
-                    }
                 }
                 if (Objects.equals(direction, "right")) {
                     worldX += speed;
-                    if (canMoveRight) {
-                        screenX += speed;
-                    }
                 }
             }
         }

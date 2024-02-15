@@ -10,10 +10,11 @@ public class GamePanel extends JPanel implements Runnable {
     private final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 16, maxScreenRow = 12;
 
     Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
     public final double screenWidth = size.getWidth(), screenHeight = size.getHeight();
+
+    public final int maxScreenCol = (int)screenWidth / tileSize, maxScreenRow = (int)screenHeight / tileSize;
 
     // FPS
     public final int fps = 60;
@@ -90,7 +91,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        tileMng.drawFromMap(g2);
+        tileMng.drawFromMap(g2, 4, false);
 
         player.draw(g2);
 
