@@ -22,6 +22,7 @@ public class CollisionHandler {
             int bottomRow = bottomWorldY/gp.tileSize;
 
             int tileNum1, tileNum2;
+            if ((leftCol >= 0 && leftCol < gp.maxWorldCol) && (rightCol >= 0 && rightCol < gp.maxWorldCol) && (topRow >= 0 && topRow < gp.maxWorldRow) && (bottomRow >= 0 && bottomRow < gp.maxWorldRow)) {
                 switch (((Player) e).direction) {
                     case "up":
                         topRow = (topWorldY - e.speed) / gp.tileSize;
@@ -67,6 +68,7 @@ public class CollisionHandler {
                         System.err.println("Incorrect direction input. PLEASE REPORT");
                         break;
                 }
+            }
             }
         }
     }

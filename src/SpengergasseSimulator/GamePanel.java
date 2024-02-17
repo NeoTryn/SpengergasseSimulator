@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     JFrame window;
 
-    Inventory inv = new Inventory(new Dimension(450, 650), this);
+    Inventory inv = new Inventory(new Dimension(this.tileSize * 10, this.tileSize * 16), this);
     public CollisionHandler colHandler = new CollisionHandler(this);
 
     public GamePanel(JFrame window) {
