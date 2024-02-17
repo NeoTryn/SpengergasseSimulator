@@ -31,6 +31,8 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileMng = new TileManager(10, this);
 
     JFrame window;
+
+    Inventory inv = new Inventory(new Dimension(450, 650), this);
     public CollisionHandler colHandler = new CollisionHandler(this);
 
     public GamePanel(JFrame window) {
@@ -84,6 +86,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         player.update();
+
+        inv.setVisible(handler.inv);
     }
 
     public void paintComponent(Graphics g) {

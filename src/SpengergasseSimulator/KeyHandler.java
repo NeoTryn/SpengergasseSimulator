@@ -6,10 +6,13 @@ import java.util.HashMap;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean w, a, s, d, esc;
+    public boolean w, a, s, d, esc, inv;
 
     @Override
     public void keyTyped(KeyEvent e) {
+        int code = e.getKeyCode();
+
+
     }
 
     @Override
@@ -28,7 +31,7 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_D) {
             d = true;
         }
-
+//monke
         if(code == KeyEvent.VK_ESCAPE) {
             esc = true;
         }
@@ -49,6 +52,9 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_D) {
             d = false;
+        }
+        if(code == KeyEvent.VK_E) {
+            inv = !inv;
         }
     }
 }

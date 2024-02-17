@@ -22,11 +22,10 @@ public class CollisionHandler {
             int bottomRow = bottomWorldY/gp.tileSize;
 
             int tileNum1, tileNum2;
-            if ((leftCol >= 0 && leftCol <= gp.maxWorldCol) && (rightCol >= 0 && rightCol <= gp.maxWorldCol) && (topRow >= 0 && topRow <= gp.maxWorldRow) && (bottomRow >= 0 && bottomRow <= gp.maxWorldRow)) {
                 switch (((Player) e).direction) {
                     case "up":
                         topRow = (topWorldY - e.speed) / gp.tileSize;
-                        if (topRow >= 0 && topRow <= gp.maxWorldRow) {
+                        if (topRow >= 0 && topRow < gp.maxWorldRow) {
                             tileNum1 = gp.tileMng.mapTileNum[leftCol][topRow];
                             tileNum2 = gp.tileMng.mapTileNum[rightCol][topRow];
                             if (gp.tileMng.tiles[tileNum1].collision || gp.tileMng.tiles[tileNum2].collision) {
@@ -36,7 +35,7 @@ public class CollisionHandler {
                         break;
                     case "left":
                         leftCol = (leftWorldX - e.speed) / gp.tileSize;
-                        if (leftCol >= 0 && leftCol <= gp.maxWorldCol) {
+                        if (leftCol >= 0 && leftCol < gp.maxWorldCol) {
                             tileNum1 = gp.tileMng.mapTileNum[leftCol][bottomRow];
                             tileNum2 = gp.tileMng.mapTileNum[leftCol][topRow];
                             if (gp.tileMng.tiles[tileNum1].collision || gp.tileMng.tiles[tileNum2].collision) {
@@ -46,7 +45,7 @@ public class CollisionHandler {
                         break;
                     case "right":
                         rightCol = (rightWorldX + e.speed) / gp.tileSize;
-                        if (rightCol >= 0 && rightCol <= gp.maxWorldCol) {
+                        if (rightCol >= 0 && rightCol < gp.maxWorldCol) {
                             tileNum1 = gp.tileMng.mapTileNum[rightCol][topRow];
                             tileNum2 = gp.tileMng.mapTileNum[rightCol][bottomRow];
                             if (gp.tileMng.tiles[tileNum1].collision || gp.tileMng.tiles[tileNum2].collision) {
@@ -56,7 +55,7 @@ public class CollisionHandler {
                         break;
                     case "down":
                         bottomRow = (bottomWorldY + e.speed) / gp.tileSize;
-                        if (bottomRow >= 0 && bottomRow <= gp.maxWorldRow) {
+                        if (bottomRow >= 0 && bottomRow < gp.maxWorldRow) {
                             tileNum1 = gp.tileMng.mapTileNum[leftCol][bottomRow];
                             tileNum2 = gp.tileMng.mapTileNum[rightCol][bottomRow];
                             if (gp.tileMng.tiles[tileNum1].collision || gp.tileMng.tiles[tileNum2].collision) {
@@ -71,4 +70,3 @@ public class CollisionHandler {
             }
         }
     }
-}
