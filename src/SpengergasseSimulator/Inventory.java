@@ -54,7 +54,7 @@ public class Inventory extends JPopupMenu implements Runnable{
         Tile tile = null;
 
         try {
-            tile = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/earth.png"))), false);
+            tile = new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("img/tiles/item-Slot.png"))), false);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
