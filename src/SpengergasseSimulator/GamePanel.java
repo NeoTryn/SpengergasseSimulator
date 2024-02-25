@@ -33,6 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
     JFrame window;
 
     Inventory inv = new Inventory(new Dimension(this.tileSize * 10, this.tileSize * 16), this);
+
+    public Item item = new Item(false, this);
     public CollisionHandler colHandler = new CollisionHandler(this);
 
     public GamePanel(JFrame window) {
@@ -96,6 +98,8 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         tileMng.drawFromMap(g2, 4, false);
+
+        item.draw(g2);
 
         player.draw(g2);
 
