@@ -87,6 +87,8 @@ public class GamePanel extends JPanel implements Runnable {
             System.exit(0);
         }
 
+        item.checkCollision(this.player);
+
         player.update();
 
         inv.setVisible(handler.inv);
@@ -102,6 +104,10 @@ public class GamePanel extends JPanel implements Runnable {
         item.draw(g2);
 
         player.draw(g2);
+
+        if (item.collisionOn) {
+            item.drawInInv(0, g2);
+        }
 
         g2.dispose();
     }

@@ -16,7 +16,11 @@ public class Inventory extends JPopupMenu implements Runnable{
 
     public int maxInvCol, maxInvRow;
 
+    public static int maxInvSlots;
+
     Thread fred;
+
+    public Item[] items;
 
     public Inventory(Dimension size, GamePanel gp) {
         super();
@@ -32,6 +36,8 @@ public class Inventory extends JPopupMenu implements Runnable{
         startInvThread();
 
         this.setBorder(null);
+
+        this.items = new Item[maxInvSlots];
     }
 
     private void setStandardValues() {
@@ -39,6 +45,7 @@ public class Inventory extends JPopupMenu implements Runnable{
         this.y = 25;
         this.maxInvCol = this.size.width / this.gp.tileSize;
         this.maxInvRow = this.size.height / this.gp.tileSize;
+        maxInvSlots = maxInvCol * maxInvRow;
     }
 
     private void startInvThread() {
